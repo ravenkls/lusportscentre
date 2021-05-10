@@ -16,7 +16,7 @@ with open("lusportscentre/__init__.py") as f:
 
 
 setup(
-    name="Lancaster Sports Centre",
+    name="lusportscentre",
     url="https://www.github.com/ravenkls/lusportscentre/",
     version=version,
     packages=find_packages(),

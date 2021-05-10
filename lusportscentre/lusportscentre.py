@@ -74,7 +74,7 @@ class LancasterSportsCentre:
             )
             return [Booking.from_tuple(data) for data in bookings_parsed]
 
-    def get_slots(self, category, activity):
+    def get_slots(self, category, activity, *, after=0, before=24):
         s = self.login()
 
         club_data = {
@@ -113,18 +113,29 @@ class LancasterSportsCentre:
             for s in slots
             if s.select("td")[-1].text == "[ Add to Basket ]"
         ]
+
+        if after != 0 or before != 24:
+            after = int(after) + (after - int(after)) / 0.60
+            before = int(before) + (before - int(before)) / 0.60
+            slots = [
+                s
+                for s in slots
+                if s.start_date.hour + (s.start_date.minute / 60) >= after
+                and s.end_date.hour + (s.end_date.minute / 60) <= before
+            ]
+
         return sorted(slots)
 
+    def get_cardio_slots(self, *, after=0, before=24):
+        slots = self.get_slots(701, 728, after=after, before=before)
+        return slots
+
     def get_gym_slots(self, *, after=0, before=24):
-        slots = self.get_slots(701, 729)
-        after = int(after) + (after - int(after)) / 0.60
-        before = int(before) + (before - int(before)) / 0.60
-        slots = [
-            s
-            for s in slots
-            if s.start_date.hour + (s.start_date.minute / 60) >= after
-            and s.end_date.hour + (s.end_date.minute / 60) <= before
-        ]
+        slots = self.get_slots(701, 729, after=after, before=before)
+        return slots
+
+    def get_strength_and_conditioning_slots(self, *, after=0, before=24):
+        slots = self.get_slots(701, 708, after=after, before=before)
         return slots
 
     def __repr__(self):

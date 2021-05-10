@@ -1,0 +1,5 @@
+.vscode/
+*.py[cod]
+*.log
+*.egg-info
+*.buildinfo

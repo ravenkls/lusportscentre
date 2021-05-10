@@ -10,7 +10,7 @@ pip install lusportscentre
 
 ## Usage
 
-```
+```python
 from lusportscentre import LancasterSportsCentre
 
 sports_centre = LancasterSportsCentre("username", "password")
